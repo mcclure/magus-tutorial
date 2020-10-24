@@ -2,9 +2,9 @@ Here are my steps for building and installing firmware for the [Rebel Technology
 
 **If you don't want to build a firmware,** you just want to install one, you can download an [official firmware from Github](https://github.com/pingdynasty/OpenWare/releases) and then skip to step 6.
 
-**If you are planning to change the firmware code before building it,** you may want to run the OPTIONAL, SCARY STEPS at the bottom of this guide first, for safety.
+**If you are planning to change the firmware code before building it,** you may want to run the [OPTIONAL, SCARY STEPS](#optional-scary-steps) at the bottom of this guide first, for safety.
 
-**If you know what STM32CubeMX is** and want to change programmer settings, run the EVEN MORE OPTIONAL, EVEN SCARIER STEPS below that.
+**If you know what STM32CubeMX is** and want to change programmer settings, run the [EVEN MORE OPTIONAL, EVEN SCARIER STEPS](#even-more-optional-even-scarier-steps-stm32cube) below that.
 
 # STEPS
 
@@ -18,19 +18,19 @@ Here are my steps for building and installing firmware for the [Rebel Technology
 
 4. I DID THESE STEPS, BUT **YOU PROBABLY SHOULDN'T**:
 
-  * Edited checkout directory `common.mk` and replaced the GIT_REVISION line with:
+    * Edited checkout directory `common.mk` and replaced the GIT_REVISION line with:
 
-          GIT_REVISION = $(shell hg log --template='{bookmarks} {gitnode|short}' -r .) $(CONFIG)
+            GIT_REVISION = $(shell hg log --template='{bookmarks} {gitnode|short}' -r .) $(CONFIG)
 
-      This step is a byproduct of something weird about my computer (I use Mercurial rather than Git).
+        This step is a byproduct of something weird about my computer (I use Mercurial rather than Git).
 
-  * If you're going to do the OPTIONAL, SCARY STEPS this is when you should do them.
+    * If you're going to do the OPTIONAL, SCARY STEPS this is when you should do them.
 
 5. Ran `make magus TOOLROOT=` in checkout directory.
 
 6. Check out [https://github.com/pingdynasty/FirmwareSender](https://github.com/pingdynasty/FirmwareSender) with git.
 
-  - Below I'll call the directory you checked this out to `$SENDER_DIR`. You can save that to a shell variable with ```export SENDER_DIR=`pwd` ```.
+    - Below I'll call the directory you checked this out to `$SENDER_DIR`. You can save that to a shell variable with ```export SENDER_DIR=`pwd` ```.
 
 7. Open the Visual Studio solution in Builds/VisualStudio2015, click the menu at the top that says "Debug" and switch to "Release", select "Build Solution" in the Build menu.
 
