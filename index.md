@@ -1,10 +1,10 @@
-Here are my steps for building and installing Firmware from scratch on a Windows 10 machine.
+Here are my steps for building and installing firmware for the [Rebel Technology Magus](https://www.rebeltech.org/product/magus/) from scratch on a Windows 10 machine. Some of these steps may also work for other "OWL" (Open Hardware Laboratory) devices.
 
-If you don't want to build a firmware, you just want to install one, you can download an [official firmware from Github](https://github.com/pingdynasty/OpenWare/releases) and then skip to step 6.
+**If you don't want to build a firmware,** you just want to install one, you can download an [official firmware from Github](https://github.com/pingdynasty/OpenWare/releases) and then skip to step 6.
 
-If you are planning to change the firmware code before building it, you may want to run the OPTIONAL, SCARY STEPS at the bottom of this guide first, for safety.
+**If you are planning to change the firmware code before building it,** you may want to run the OPTIONAL, SCARY STEPS at the bottom of this guide first, for safety.
 
-If you know what STM32CubeMX is and want to change programmer settings, run the EVEN MORE OPTIONAL, EVEN SCARIER STEPS below that.
+**If you know what STM32CubeMX is** and want to change programmer settings, run the EVEN MORE OPTIONAL, EVEN SCARIER STEPS below that.
 
 # STEPS
 
@@ -12,17 +12,17 @@ If you know what STM32CubeMX is and want to change programmer settings, run the 
 
 2. I checked out [https://github.com/pingdynasty/OpenWare](https://github.com/pingdynasty/OpenWare) with Ubuntu for Linux git.
 
-	- Below I'll call the directory you checked this out to `$OPENWARE_DIR`. You can save that to a shell variable with ```export OPENWARE_DIR=`pwd` ```.
+  - Below I'll call the directory you checked this out to `$OPENWARE_DIR`. You can save that to a shell variable with ```export OPENWARE_DIR=`pwd` ```.
 
 3. In Ubuntu for Windows, I installed gcc (with `sudo apt install gcc-arm-none-eabi`)
 
 4. I DID THESE STEPS, BUT **YOU PROBABLY SHOULDN'T**:
 
-	* Edited checkout directory `common.mk` and replaced the GIT_REVISION line with:
+  * Edited checkout directory `common.mk` and replaced the GIT_REVISION line with:
 
           GIT_REVISION = $(shell hg log --template='{bookmarks} {gitnode|short}' -r .) $(CONFIG)
 
-    	This step is a byproduct of something weird about my computer (I use Mercurial rather than Git).
+      This step is a byproduct of something weird about my computer (I use Mercurial rather than Git).
 
   * If you're going to do the OPTIONAL, SCARY STEPS this is when you should do them.
 
@@ -30,7 +30,7 @@ If you know what STM32CubeMX is and want to change programmer settings, run the 
 
 6. Check out [https://github.com/pingdynasty/FirmwareSender](https://github.com/pingdynasty/FirmwareSender) with git.
 
-	- Below I'll call the directory you checked this out to `$SENDER_DIR`. You can save that to a shell variable with ```export SENDER_DIR=`pwd` ```.
+  - Below I'll call the directory you checked this out to `$SENDER_DIR`. You can save that to a shell variable with ```export SENDER_DIR=`pwd` ```.
 
 7. Open the Visual Studio solution in Builds/VisualStudio2015, click the menu at the top that says "Debug" and switch to "Release", select "Build Solution" in the Build menu.
 
@@ -59,7 +59,7 @@ As long as you use only officially released firmwares, you do not need the safet
 
 2. You need to buy an ST programmer. You can get this for about $30 from ST, or if you search "st programmer" on alibaba or amazon you can get a very cheap knockoff.
 
-	- By the way, once you have the ST programmer, you can just stop here. If you have a programmer you have the option of simply letting the Magus crash and brick itself, and then using the ST programmer to rescue it from brick state using the ST programmer.
+  - By the way, once you have the ST programmer, you can just stop here. If you have a programmer you have the option of simply letting the Magus crash and brick itself, and then using the ST programmer to rescue it from brick state using the ST programmer.
 
 3. Unscrew the four screws on the underside of the device and remove the flat panel.
 
