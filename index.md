@@ -20,7 +20,7 @@ Here are my steps for building and installing firmware for the [Rebel Technology
 
     * Edited checkout directory `common.mk` and replaced the GIT_REVISION line with:
 
-            GIT_REVISION = $(shell hg log --template='{bookmarks} {gitnode|short}' -r .) $(CONFIG)
+          GIT_REVISION = $(shell hg log --template='{bookmarks} {gitnode|short}' -r .) $(CONFIG)
 
         This step is a byproduct of something weird about my computer (I use Mercurial rather than Git).
 
@@ -36,7 +36,7 @@ Here are my steps for building and installing firmware for the [Rebel Technology
 
 8. Run:
 
-        $SENDER_DIR/Builds/VisualStudio2015/Win32/Release/ConsoleApp/FirmwareSender.exe -in $OPENWARE_DIR/Magus/Build/Magus.bin -save $OPENWARE_DIR/Magus/Build/Magus.bin.syx
+       $SENDER_DIR/Builds/VisualStudio2015/Win32/Release/ConsoleApp/FirmwareSender.exe -in $OPENWARE_DIR/Magus/Build/Magus.bin -save $OPENWARE_DIR/Magus/Build/Magus.bin.syx
 
 9. Go to the [Firmware uploader web page](https://pingdynasty.github.io/OwlWebControl/firmware.html) and follow the instructions there, feeding it the Magus.bin.syx file.
 
@@ -115,7 +115,7 @@ As long as you use only officially released firmwares, you do not need the safet
 
     **So:** Edit `Hardware/openocd.cfg` in $OPENWARE_DIR and change `[find interface/stlink.cfg]` to `[find interface/stlink-v2.cfg]` . Try make info again.
 
-        * Is it still not finding it? Try running this and seeing if it spits out any promising-looking filenames:
+      * Is it still not finding it? Try running this and seeing if it spits out any promising-looking filenames:
 
             * On Windows:
 
