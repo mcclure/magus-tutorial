@@ -10,11 +10,13 @@ Here are my steps for building and installing firmware for the [Rebel Technology
 
 1. Install [Ubuntu for Linux for Windows](https://ubuntu.com/tutorials/ubuntu-on-windows#3-enable-wsl).
 
-2. Check out [https://github.com/pingdynasty/OpenWare](https://github.com/pingdynasty/OpenWare) with Ubuntu for Linux git.
+2. Check out [https://github.com/pingdynasty/OpenWare](https://github.com/pingdynasty/OpenWare) with Ubuntu for Linux git. For these instructions you'll need the "develop" branch. You can do this with:
+
+        git clone -b develop https://github.com/pingdynasty/OpenWare.git 
 
     - Below I'll call the directory you checked this out to `$OPENWARE_DIR`. You can save that to a shell variable with ```export OPENWARE_DIR=`pwd` ```.
 
-3. In Ubuntu for Windows, install gcc (with `sudo apt install gcc-arm-none-eabi`)
+3. In Ubuntu for Windows, install gcc for 32-bit embedded ARM (with `sudo apt install gcc-arm-none-eabi`)
 
 4. I DID THESE STEPS, BUT **YOU PROBABLY SHOULDN'T**:
 
@@ -22,13 +24,15 @@ Here are my steps for building and installing firmware for the [Rebel Technology
 
           GIT_REVISION = $(shell hg log --template='{bookmarks} {gitnode|short}' -r .) $(CONFIG)
 
-        This step is a byproduct of something weird about my computer (I use Mercurial rather than Git).
+        This step is a byproduct of something special and weird about my computer (I use Mercurial rather than Git).
 
     * If you're going to do the OPTIONAL, SCARY STEPS this point is when you should do them.
 
 5. Run `make magus TOOLROOT=` in checkout directory.
 
-6. Check out [https://github.com/pingdynasty/FirmwareSender](https://github.com/pingdynasty/FirmwareSender) with git.
+6. Check out [https://github.com/pingdynasty/FirmwareSender](https://github.com/pingdynasty/FirmwareSender) with git:
+
+        git clone https://github.com/pingdynasty/FirmwareSender.git
 
     - Below I'll call the directory you checked this out to `$SENDER_DIR`. You can save that to a shell variable with ```export SENDER_DIR=`pwd` ```.
 
@@ -46,7 +50,7 @@ Here are my steps for building and installing firmware for the [Rebel Technology
 
 ## INSTALLING THE SAFETY BOOTLOADER
 
-On some OWL family devices, there is a button you can hold down to kick the device into bootloader mode. The Magus doesn't have a button like this. The only way to boot the Magus into bootloader is to send it the "reboot into bootloader" MIDI message. This means if your Magus firmware has a bug that causes it to hang or crash at launch, before it gets to the point of receiving MIDI, you cannot get into the bootloader at all, and your device is now a brick.
+On some OWL family devices, there is a button you can hold down to kick the device into bootloader mode. The Magus doesn't have a button like this. The only way to boot the Magus into bootloader is to send it the "reboot into bootloader" MIDI message. This means if your Magus firmware has a bug that causes it to hang at launch, before it gets to the point of receiving MIDI, you cannot get into the bootloader at all and your device is now a brick.
 
 The solution to this is to install the newer, "safe" bootloader. This uses something called a "watchdog" which means if the Magus firmware ever hangs for a sufficiently long period of time, it will automatically fall into the bootloader.
 
@@ -63,7 +67,7 @@ As long as you use only officially released firmwares, you do not need the safet
 
 2. You need to buy an ST programmer. You can get this for about $30 from ST, or if you search "st programmer" on alibaba or amazon you can get a very cheap knockoff.
 
-    - By the way, once you have the ST programmer, **you can just stop here.** If you have a programmer you have the option of simply letting the Magus crash and brick itself, and then using the ST programmer to rescue it from brick state using the ST programmer.
+    - By the way, once you have the ST programmer, **you can just stop here.** If you have a programmer you have the option of simply waiting for the Magus to crash and brick itself, and then using the ST programmer to rescue it from brick state.
 
 3. Unscrew the four screws on the underside of the device and remove the flat panel.
 
@@ -77,13 +81,13 @@ As long as you use only officially released firmwares, you do not need the safet
 
     - Remove the IO card by pulling up.
 
-5. Now you need to remove the little white board. It holds on to its sockets pretty tightly, so try gripping it at the edges rocking it back and forth from top to bottom until it comes loose.
+5. Now you need to remove the little white board. It holds on to its sockets pretty tightly, so try gripping it at the edges and rocking it back and forth from top to bottom until it comes loose.
 
 6. Now it's time to connect the white board to the ST programmer. [This diagram](https://github.com/pingdynasty/OpenWareLab/blob/master/OWL_Digital/Legacy/Owl-digital-pinout.pdf) shows the names of the pins on the board (it's not the same revision as is in the Magus, but the programmer pins don't change). You will need to connect **SWDIO**, **GND**, **SWCLK**, and **3.3V**. There are many pins so make absolutely sure you connected the right ones! 
 
     ![ST knockoff programmer connected to board](stlink-table.jpg)
 
-7. Now we have the hardware we need, let's build some firmware.
+7. Now we have the hardware set up, let's build some firmware.
 
     Turn on the watchdog ("IWDG") in the bootloader and the Magus firmware:
 
