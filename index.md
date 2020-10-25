@@ -14,7 +14,7 @@ Here are my steps for building and installing firmware for the [Rebel Technology
 
         git clone --recursive -b develop git@github.com:pingdynasty/OpenWare.git
 
-    - Did it say something about "permisison denied (publickey)"? Unfortunately, because we're using submodules, you'll need to have a GitHub account and you'll need to set up "ssh keys". You can sign up for GitHub [here](https://github.com/join), and you can find the instructions for setting up an ssh key [here](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account). (Note because we're using Ubuntu for Windows, you'll want to follow the Linux instructions, but when they tell you to use xclip, don't do that-- instead, run `clip.exe < ~/.ssh/id_rsa.pub`.)
+    - Did it say something about "permission denied (publickey)"? Unfortunately, because we're using submodules, you'll need to have a GitHub account and you'll need to set up "ssh keys". You can sign up for GitHub [here](https://github.com/join), and you can find the instructions for setting up an ssh key [here](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account). (Note because we're using Ubuntu for Windows, you'll want to follow the Linux instructions, but when they tell you to use xclip, don't do that-- instead, run `clip.exe < ~/.ssh/id_rsa.pub`.)
 
     - Below I'll call the directory you checked OpenWare out to `$OPENWARE_DIR`. You can save that to a shell variable by `cd`ing into the checkout directory and running ```export OPENWARE_DIR=`pwd` ```.
 
