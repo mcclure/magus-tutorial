@@ -14,7 +14,7 @@ Here are my steps for building and installing firmware for the [Rebel Technology
 
         git clone -b develop https://github.com/pingdynasty/OpenWare.git 
 
-    - Below I'll call the directory you checked this out to `$OPENWARE_DIR`. You can save that to a shell variable with ```export OPENWARE_DIR=`pwd` ```.
+    - Below I'll call the directory you checked this out to `$OPENWARE_DIR`. You can save that to a shell variable by `cd`ing into the checkout directory and running ```export OPENWARE_DIR=`pwd` ```.
 
 3. In Ubuntu for Windows, install gcc for 32-bit embedded ARM (with `sudo apt install gcc-arm-none-eabi`)
 
@@ -34,9 +34,9 @@ Here are my steps for building and installing firmware for the [Rebel Technology
 
         git clone https://github.com/pingdynasty/FirmwareSender.git
 
-    - Below I'll call the directory you checked this out to `$SENDER_DIR`. You can save that to a shell variable with ```export SENDER_DIR=`pwd` ```.
+    - Below I'll call the directory you checked this out to `$SENDER_DIR`. You can save that to a shell variable by `cd`ing into the checkout directory and running ```export SENDER_DIR=`pwd` ```.
 
-7. Open the Visual Studio solution in Builds/VisualStudio2015, click the menu at the top that says "Debug" and switch to "Release", select "Build Solution" in the Build menu.
+7. Open the Visual Studio solution in `$SENDER_DIR/Builds/VisualStudio2015`, click the menu at the top that says "Debug" and switch to "Release", select "Build Solution" in the Build menu.
 
 8. Run:
 
@@ -111,7 +111,7 @@ As long as you use only officially released firmwares, you do not need the safet
 
        * Run this exact line from `$OPENWARE_DIR`, so the MidiBoot Makefile will know how to find OpenOCD:
 
-               export OPENOCD="`pwd`/openocd/bin-x64/openocd.exe -s `wslpath -m ./openocd/scripts` -f `wslpath -m ./Hardware/openocd.cfg`"
+             export OPENOCD="`pwd`/openocd/bin-x64/openocd.exe -s `wslpath -m ./openocd/scripts` -f `wslpath -m ./Hardware/openocd.cfg`"
 
            You will need to run this `export` command **every time** you open up a terminal window. If you close the window or switch to another tab, Ubuntu will forget your `export`s.
 
@@ -131,11 +131,11 @@ As long as you use only officially released firmwares, you do not need the safet
 
             * On Windows:
 
-                find $OPENWARE_DIR/openocd | grep cfg | grep stlink | grep interface
+                ```find $OPENWARE_DIR/openocd | grep cfg | grep stlink | grep interface```
 
             * In Ubuntu:
 
-                find /usr/share/openocd/ | grep cfg | grep stlink | grep interface
+                ```find /usr/share/openocd/ | grep cfg | grep stlink | grep interface```
 
     * Did it fail with the error "LIBUSB_ERROR_NOT_SUPPORTED"? If you are on Windows, this means your knockoff programmer did not install the WinUSB drivers properly.
 
