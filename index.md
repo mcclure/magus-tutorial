@@ -113,7 +113,7 @@ As long as you use only officially released firmwares, you do not need the safet
 
              export OPENOCD="`pwd`/openocd/bin-x64/openocd.exe -s `wslpath -m ./openocd/scripts` -f `wslpath -m ./Hardware/openocd.cfg`"
 
-           You will need to run this `export` command **every time** you open up a terminal window. If you close the window or switch to another tab, Ubuntu will forget your `export`s.
+           You will need to run this `export` command **every time you open up a terminal window**. If you close the window or switch to another tab, Ubuntu will forget your `export`s.
 
            (Want to understand where this mystery line came from? Read [this page in the openocd documentation](http://openocd.org/doc-release/html/Running.html#Running) and `wslpath --help`.)
 
@@ -123,7 +123,7 @@ As long as you use only officially released firmwares, you do not need the safet
 
     `(cd MidiBoot && make info)`
 
-    * Did it fail with the error "Can't find interface/stlink.cfg"? This is expected if you are running OpenOCD 10 (the Makefile currently assumes you're running the still-in-beta OpenOCD 11.) In OpenOCD 10 or earlier, the stlink configuration is installed as "stlink-v2.cfg".
+    * Did it fail with the error "Can't find interface/stlink.cfg"? This is expected if you are running OpenOCD 10 (the Makefile currently assumes you're running the still-in-beta OpenOCD 11). In OpenOCD 10 or earlier, the stlink configuration is installed as "stlink-v2.cfg".
 
         **So:** Edit `Hardware/openocd.cfg` in $OPENWARE_DIR and change `[find interface/stlink.cfg]` to `[find interface/stlink-v2.cfg]` . Try make info again.
 
@@ -141,15 +141,17 @@ As long as you use only officially released firmwares, you do not need the safet
 
         * We can install them manually. Go to [zadig.akeo.ie](https://zadig.akeo.ie/) and download the Zadig tool.
 
-        At the top of the window there's a dropdown menu. It should automatically have set itself to "STM32 STLink". If it doesn't say something about STLink, click the menu and try to select your STLink device.
+            At the top of the window there's a dropdown menu. It should automatically have set itself to "STM32 STLink". If it doesn't say something about STLink, click the menu and try to select your STLink device.
 
-        Under that there's a little box for the "target driver". It probably says "WinUSB" to start off. There's two little bitty buttons next to it with up and down arrows. Click the down arrow until the box says "libusbK". ("WinUSB" will **also** probably work, but libusbK is what I used. What I'm told is libusbK works with more different kinds of unusual configurations, and the knockoff programmers are potentially unusual.)
+            Under that there's a little box for the "target driver". It probably says "WinUSB" to start off. There's two little bitty buttons next to it with up and down arrows. Click the down arrow until the box says "libusbK". ("WinUSB" will **also** probably work, but libusbK is what I used. What I'm told is libusbK works with more different kinds of unusual configurations, and the knockoff programmers are potentially unusual.)
 
-        Now click the "Install Driver" button.
+            Now click the "Install Driver" button.
 
-        Once it says the driver is installed, close Zadig and try make info again.
+            ![Zadig screenshot](zadig.png)
 
-        (Want to understand this step? Read the [OpenOCD Windows README](http://openocd.org/doc-release/README.Windows).)
+            Once it says the driver is installed, close Zadig and try make info again.
+
+            (Want to understand this step? Read the [OpenOCD Windows README](http://openocd.org/doc-release/README.Windows).)
 
     * Did it fail with the error "open failed", and no further information? Make sure the programmer is plugged in and the wires are firmly attached.
 
