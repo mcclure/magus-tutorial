@@ -10,11 +10,13 @@ Here are my steps for building and installing firmware for the [Rebel Technology
 
 1. Install [Ubuntu for Linux for Windows](https://ubuntu.com/tutorials/ubuntu-on-windows#3-enable-wsl).
 
-2. Check out [https://github.com/pingdynasty/OpenWare](https://github.com/pingdynasty/OpenWare) with Ubuntu for Linux git. For these instructions you'll need the "develop" branch. You can do this with:
+2. Check out [https://github.com/pingdynasty/OpenWare](https://github.com/pingdynasty/OpenWare) with Ubuntu for Linux git. For these instructions you'll need the "develop" branch, and you'll want to "recurse submodules". You can do all this with:
 
-        git clone -b develop https://github.com/pingdynasty/OpenWare.git 
+        git clone --recursive -b develop git@github.com:pingdynasty/OpenWare.git
 
-    - Below I'll call the directory you checked this out to `$OPENWARE_DIR`. You can save that to a shell variable by `cd`ing into the checkout directory and running ```export OPENWARE_DIR=`pwd` ```.
+    - Did it say something about "permisison denied (publickey)"? Unfortunately, because we're using submodules, you'll need to have a GitHub account and you'll need to set up "ssh keys". You can sign up for GitHub [here](https://github.com/join), and you can find the instructions for setting up an ssh key [here](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account). (Note because we're using Ubuntu for Windows, you'll want to follow the Linux instructions, but when they tell you to use xclip, don't do that-- instead, run `clip.exe < ~/.ssh/id_rsa.pub`.)
+
+    - Below I'll call the directory you checked OpenWare out to `$OPENWARE_DIR`. You can save that to a shell variable by `cd`ing into the checkout directory and running ```export OPENWARE_DIR=`pwd` ```.
 
 3. In Ubuntu for Windows, install gcc for 32-bit embedded ARM (with `sudo apt install gcc-arm-none-eabi`)
 
@@ -129,11 +131,11 @@ As long as you use only officially released firmwares, you do not need the safet
 
         * Is it still not finding it? Try running this and seeing if it spits out any promising-looking filenames:
 
-            * On Windows:
+            * On Ubuntu for Windows:
 
                 ```find $OPENWARE_DIR/openocd | grep cfg | grep stlink | grep interface```
 
-            * In Ubuntu:
+            * On "real" Ubuntu:
 
                 ```find /usr/share/openocd/ | grep cfg | grep stlink | grep interface```
 
@@ -143,13 +145,13 @@ As long as you use only officially released firmwares, you do not need the safet
 
             At the top of the window there's a dropdown menu. It should automatically have set itself to "STM32 STLink". If it doesn't say something about STLink, click the menu and try to select your STLink device.
 
-            Under that there's a little box for the "target driver". It probably says "WinUSB" to start off. There's two little bitty buttons next to it with up and down arrows. Click the down arrow until the box says "libusbK". ("WinUSB" will **also** probably work, but libusbK is what I used. What I'm told is libusbK works with more different kinds of unusual configurations, and the knockoff programmers are potentially unusual.)
+            Under that there's a little box for the "target driver". It probably says "WinUSB" to start off. There's two little bitty buttons next to it with up and down arrows. Click the down arrow until the box says "libusbK". ("WinUSB" will **also** probably work, but libusbK is what I used. What I'm told is libusbK works more often for unusual devices such as cheap knockoffs.)
 
             Now click the "Install Driver" button.
 
             ![Zadig screenshot](zadig.png)
 
-            Once it says the driver is installed, close Zadig and try make info again.
+            Once it says the driver is installed, close Zadig and try "make info" again.
 
             (Want to understand this step? Read the [OpenOCD Windows README](http://openocd.org/doc-release/README.Windows).)
 
@@ -162,8 +164,6 @@ As long as you use only officially released firmwares, you do not need the safet
     `(cd MidiBoot && make unlock)`
 
     * Did it fail with the error "timed out while waiting for target halted"? This happened to me, and the solution turned out to be to edit `$OPENWARE_DIR/MidiBoot/Makefile` and change the two files under `unlock:` so that they say `halt` instead of `reset halt`.
-
-    (Want to understand this step? Read the [OpenOCD command documentation](http://openocd.org/doc/html/General-Commands.html). Incidentally, at this point, we can run any OpenOCD command we like even without using the Makefile by running `$OPENOCD -c "init" -c "YOUR_COMMAND_HERE" -c "exit"`.)
 
 12. Upload: 
 
@@ -179,7 +179,7 @@ We're done! You can now resume the main tutorial from step 5 after reassembling 
 * There are little wires that normally run underneath the IO board. When you fit the IO board back in, make sure you don't crush any little wires under one of the IO board plug parts.
 * When you first fit the IO board back in, the outside plugs will all be sticking out of the case at a weird angle. You will need to push it down with a sort of rocking motion and then it will click into place and the outer plugs will be straight.
 
-Alternately, before you reassemble, since you've already got a programmer plugged in, you could actually use the programmer to upload Magus firmware in addition to the bootloader you already installed. Run just step 5 of the main tutorial, then:
+**Alternately**, before you reassemble, since you've already got a programmer plugged in, you could actually use the programmer to upload Magus firmware in addition to the bootloader you already installed. Run just step 5 of the main tutorial, then:
 
 {:start="14"}
 14. Unlock the chip again:
@@ -194,27 +194,29 @@ Alternately, before you reassemble, since you've already got a programmer plugge
 
     `(cd MidiBoot && make lock)`
 
-    (In general, at this point we can run any OpenOCD command we like even without using the Makefile by running `$OPENOCD -c "init" -c "YOUR_COMMAND_HERE" -c "exit"`. The OpenOCD commands are documented [here](http://openocd.org/doc/html/General-Commands.html). Antisvin also has a tutorial for how to run the [debugger](https://community.rebeltech.org/t/guide-setting-up-vscode-for-debugging-openware/1485), if you want to alter the code and then test your changes.)
+    (In general, after we unlock we can run any OpenOCD command we like even without using the Makefile by running `$OPENOCD -c "init" -c "YOUR_COMMAND_HERE" -c "exit"`. The OpenOCD commands are documented [here](http://openocd.org/doc/html/General-Commands.html). Antisvin also has a tutorial for how to run the [debugger](https://community.rebeltech.org/t/guide-setting-up-vscode-for-debugging-openware/1485), if you want to alter the code and then test your changes.)
 
 ## EVEN MORE OPTIONAL, EVEN SCARIER STEPS: STM32CUBE
 
+You only need to do this step if you want to install new code packages from ST Microelectronics. It is unlikely you will want to do this.
+
 1. Run steps 1-4 of the main tutorial
 
-2. I downloaded and installed "64-bit java for windows". [https://www.java.com/en/download/windows-64bit.jsp](https://www.java.com/en/download/windows-64bit.jsp)
+2. Download and install "64-bit java for windows". [https://www.java.com/en/download/windows-64bit.jsp](https://www.java.com/en/download/windows-64bit.jsp)
 
-3. I rebooted.
+3. Reboot.
 
-4. I signed up for an account on [st.com](https://www.st.com).
+4. Sign up for an account on [st.com](https://www.st.com).
 
-5. I installed STM32CubeMX. [https://www.st.com/en/development-tools/stm32cubemx.html](https://www.st.com/en/development-tools/stm32cubemx.html)
+5. Install STM32CubeMX. [https://www.st.com/en/development-tools/stm32cubemx.html](https://www.st.com/en/development-tools/stm32cubemx.html)
 
-6. I ran STM32CubeMX.
+6. Run STM32CubeMX.
 
-  - I clicked to open an existing project and chose Magus/Magus.ioc or MidiBoot/MidiBoot.ioc. I migrated the project. I clicked "generate"
+    - Click to open an existing project and choose Magus/Magus.ioc or MidiBoot/MidiBoot.ioc. It will ask if you want to migrate, say yes. Click "generate".
 
-    - You will get a warning about "HAL timebase". You can ignore it.
+        - You will get a warning about "HAL timebase". You can ignore it.
 
-7. STM32CubeMX has now written a bunch of files all over your project directory. Problem: Some of these are new files (which you want) and some of these overwrite existing files (which you probably do not want!--those files have been modified by Rebel Technology, and probably for a specific reason). The simplest safest thing to do here is to run `git reset --hard HEAD`, which will restore files to their git state (note this will also erase your local changes, unless you committed to a branch before doing step 6).
+7. STM32CubeMX has now written a bunch of files all over the project directory. Problem: Some of these are new files (which you want) and some of these overwrite existing files (which you probably do not want!--those files have been modified by Rebel Technology, and probably for a specific reason). The simplest safest thing to do here is to cd into the `Libraries` subrepo and run `git reset --hard HEAD`, which will restore files to their git state (note this will also erase your local changes, unless you committed to a branch before doing step 6).
 
 You can now resume the main tutorial from step 5.
 
