@@ -2,7 +2,7 @@ Here are my steps for building and installing firmware for the [Rebel Technology
 
 **If you don't want to build a firmware,** you just want to install one, you can download an [official firmware from Github](https://github.com/pingdynasty/OpenWare/releases) and then skip to step 6.
 
-**If you are planning to change the firmware code before building it,** you may want to run the [OPTIONAL, SCARY STEPS](#optional-scary-steps) at the bottom of this guide first, for safety.
+**If you are planning to change the firmware code before building it,** you may want to run the [OPTIONAL, SCARY STEPS](#installing-the-safety-bootloader) at the bottom of this guide first, for safety.
 
 **If you know what STM32CubeMX is** and want to change programmer settings, run the [EVEN MORE OPTIONAL, EVEN SCARIER STEPS](#even-more-optional-even-scarier-steps-stm32cube) below that.
 
@@ -12,7 +12,7 @@ Here are my steps for building and installing firmware for the [Rebel Technology
 
 2. I checked out [https://github.com/pingdynasty/OpenWare](https://github.com/pingdynasty/OpenWare) with Ubuntu for Linux git.
 
-  - Below I'll call the directory you checked this out to `$OPENWARE_DIR`. You can save that to a shell variable with ```export OPENWARE_DIR=`pwd` ```.
+    - Below I'll call the directory you checked this out to `$OPENWARE_DIR`. You can save that to a shell variable with ```export OPENWARE_DIR=`pwd` ```.
 
 3. In Ubuntu for Windows, I installed gcc (with `sudo apt install gcc-arm-none-eabi`)
 
@@ -59,7 +59,7 @@ As long as you use only officially released firmwares, you do not need the safet
 
 2. You need to buy an ST programmer. You can get this for about $30 from ST, or if you search "st programmer" on alibaba or amazon you can get a very cheap knockoff.
 
-  - By the way, once you have the ST programmer, you can just stop here. If you have a programmer you have the option of simply letting the Magus crash and brick itself, and then using the ST programmer to rescue it from brick state using the ST programmer.
+    - By the way, once you have the ST programmer, you can just stop here. If you have a programmer you have the option of simply letting the Magus crash and brick itself, and then using the ST programmer to rescue it from brick state using the ST programmer.
 
 3. Unscrew the four screws on the underside of the device and remove the flat panel.
 
@@ -97,13 +97,11 @@ As long as you use only officially released firmwares, you do not need the safet
 
        * Run this exact line from `$OPENWARE_DIR`, so the MidiBoot Makefile will know how to find OpenOCD:
 
-       ```
-       export OPENOCD="`pwd`/openocd/bin-x64/openocd.exe -s `wslpath -m ./openocd/scripts` -f `wslpath -m ./Hardware/openocd.cfg`"
-       ```
+               export OPENOCD="`pwd`/openocd/bin-x64/openocd.exe -s `wslpath -m ./openocd/scripts` -f `wslpath -m ./Hardware/openocd.cfg`"
 
-       You will need to run this `export` command **every time** you open up a terminal window. If you close the window or switch to another tab, Ubuntu will forget your `export`s.
+           You will need to run this `export` command **every time** you open up a terminal window. If you close the window or switch to another tab, Ubuntu will forget your `export`s.
 
-       (Want to understand where this mystery line came from? Read [this page in the openocd documentation](http://openocd.org/doc-release/html/Running.html#Running) and `wslpath --help`.)
+           (Want to understand where this mystery line came from? Read [this page in the openocd documentation](http://openocd.org/doc-release/html/Running.html#Running) and `wslpath --help`.)
 
     * If you are trying to follow this guide from Ubuntu, you can `apt install openocd` and it will just work. However if you are using Ubuntu for Windows as I suggest in this guide, then do **not** install the Ubuntu version of openocd; as of Oct 2020, WSL does not support it.
 
@@ -113,17 +111,17 @@ As long as you use only officially released firmwares, you do not need the safet
 
     * Did it fail with the error "Can't find interface/stlink.cfg"? This is expected if you are running OpenOCD 10 (the Makefile currently assumes you're running the still-in-beta OpenOCD 11.) In OpenOCD 10 or earlier, the stlink configuration is installed as "stlink-v2.cfg".
 
-    **So:** Edit `Hardware/openocd.cfg` in $OPENWARE_DIR and change `[find interface/stlink.cfg]` to `[find interface/stlink-v2.cfg]` . Try make info again.
+        **So:** Edit `Hardware/openocd.cfg` in $OPENWARE_DIR and change `[find interface/stlink.cfg]` to `[find interface/stlink-v2.cfg]` . Try make info again.
 
-      * Is it still not finding it? Try running this and seeing if it spits out any promising-looking filenames:
+        * Is it still not finding it? Try running this and seeing if it spits out any promising-looking filenames:
 
             * On Windows:
 
-            `find $OPENWARE_DIR/openocd | grep cfg | grep stlink | grep interface`
+                find $OPENWARE_DIR/openocd | grep cfg | grep stlink | grep interface
 
             * In Ubuntu:
 
-            `find /usr/share/openocd/ | grep cfg | grep stlink | grep interface`
+                find /usr/share/openocd/ | grep cfg | grep stlink | grep interface
 
     * Did it fail with the error "LIBUSB_ERROR_NOT_SUPPORTED"? If you are on Windows, this means your knockoff programmer did not install the WinUSB drivers properly.
 
