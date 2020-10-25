@@ -42,7 +42,7 @@ Here are my steps for building and installing firmware for the [Rebel Technology
 
 8. Run:
 
-       $SENDER_DIR/Builds/VisualStudio2015/Win32/Release/ConsoleApp/FirmwareSender.exe -in $OPENWARE_DIR/Magus/Build/Magus.bin -save $OPENWARE_DIR/Magus/Build/Magus.bin.syx
+       $SENDER_DIR/Builds/VisualStudio2015/Win32/Release/ConsoleApp/FirmwareSender.exe -in `wslpath -m $OPENWARE_DIR/Magus/Build/Magus.bin` -save `wslpath -m $OPENWARE_DIR/Magus/Build`/Magus.bin.syx
 
     This creates a file Magus.bin.syx.
 
