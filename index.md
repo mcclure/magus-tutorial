@@ -79,7 +79,7 @@ As long as you use only officially released firmwares, you do not need the safet
 
 5. Now you need to remove the little white board. It holds on to its sockets pretty tightly, so try gripping it at the edges rocking it back and forth from top to bottom until it comes loose.
 
-6. Now it's time to connect the white board to the ST programmer. [This diagram](https://github.com/pingdynasty/OpenWareLab/blob/master/OWL_Digital/Legacy/Owl-digital-pinout.pdf) shows the names of the pins on (it's not the same revision as is in the Magus, but the programmer pins don't change). You will need to connect **SWDIO**, **GND**, **SWCLK**, and **3.3V**. There are many pins so make absolutely sure you connected the right ones! 
+6. Now it's time to connect the white board to the ST programmer. [This diagram](https://github.com/pingdynasty/OpenWareLab/blob/master/OWL_Digital/Legacy/Owl-digital-pinout.pdf) shows the names of the pins on the board (it's not the same revision as is in the Magus, but the programmer pins don't change). You will need to connect **SWDIO**, **GND**, **SWCLK**, and **3.3V**. There are many pins so make absolutely sure you connected the right ones! 
 
     ![ST knockoff programmer connected to board](stlink-table.jpg)
 
@@ -175,6 +175,7 @@ We're done! You can now resume the main tutorial from step 5 after reassembling 
 
 Alternately, before you reassemble, since you've already got a programmer plugged in, you could actually use the programmer to upload Magus firmware in addition to the bootloader you already installed. Run just step 5 of the main tutorial, then:
 
+{:start="14"}
 14. Unlock the chip again:
 
     `(cd MidiBoot && make unlock)`
